@@ -124,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
+    // Gotten from the stackOverflow link shared in the implementation guide!
+
     public boolean isOnline() {
         Runtime runtime = Runtime.getRuntime();
         try {
