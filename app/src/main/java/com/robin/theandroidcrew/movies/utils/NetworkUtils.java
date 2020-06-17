@@ -15,6 +15,8 @@ public class NetworkUtils {
     private static final String API_KEY_KEY = "api_key";
     private static final String API_KEY_VALUE = "[YOUR_API_KEY]";
 
+    // Looked at the sunshine repo and previous coursework for reference. Code may look similar
+
 
     public static URL buildURL (String path){
         Uri movieDbUrl = Uri.parse(BASE_URL).buildUpon()
