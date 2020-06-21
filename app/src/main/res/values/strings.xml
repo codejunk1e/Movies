@@ -6,4 +6,6 @@
     <string name="overview">Overview:</string>
     <string name="sort_by_popular">sort by popular</string>
     <string name="sort_by_top_rated">sort by top rated</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
 </resources>

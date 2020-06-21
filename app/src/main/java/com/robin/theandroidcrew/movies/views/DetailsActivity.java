@@ -1,4 +1,4 @@
-package com.robin.theandroidcrew.movies;
+package com.robin.theandroidcrew.movies.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.robin.theandroidcrew.movies.R;
 import com.robin.theandroidcrew.movies.model.Movie;
 import com.squareup.picasso.Picasso;
 
-import static com.robin.theandroidcrew.movies.MainActivity.MOVIE_KEY;
+import static com.robin.theandroidcrew.movies.views.MainActivity.MOVIE_KEY;
 
 public class DetailsActivity extends AppCompatActivity {
     private ImageView imagePoster;
@@ -33,16 +34,20 @@ public class DetailsActivity extends AppCompatActivity {
         if (intent != null){
             movie = intent.getParcelableExtra(MOVIE_KEY);
 
-            detailsTitle.setText(movie.getTitle());
-            releaseDate.setText(movie.getReleaseDate());
-            rate.setText(movie.getUserRating());
-            overview.setText(movie.getOverview());
+            if (movie != null){
 
-            Picasso.get()
-                    .load(movie.getPoster())
-                    .placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.placeholder_image)
-                    .into(imagePoster);
+                detailsTitle.setText(movie.getTitle());
+                releaseDate.setText(movie.getReleaseDate());
+                rate.setText(movie.getUserRating());
+                overview.setText(movie.getOverview());
+
+                Picasso.get()
+                        .load(movie.getPoster())
+                        .placeholder(R.drawable.placeholder_image)
+                        .error(R.drawable.placeholder_image)
+                        .into(imagePoster);
+
+            }
         }
 
     }

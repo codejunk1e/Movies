@@ -1,4 +1,4 @@
-package com.robin.theandroidcrew.movies;
+package com.robin.theandroidcrew.movies.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,12 +6,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.robin.theandroidcrew.movies.R;
 import com.robin.theandroidcrew.movies.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     List<Movie> movies;
     MovieAdapterOnClickHandler clickListener;
 

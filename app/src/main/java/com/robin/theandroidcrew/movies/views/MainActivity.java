@@ -1,25 +1,24 @@
-package com.robin.theandroidcrew.movies;
+package com.robin.theandroidcrew.movies.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.robin.theandroidcrew.movies.utils.Category;
+import com.robin.theandroidcrew.movies.adapter.MovieAdapter;
+import com.robin.theandroidcrew.movies.R;
 import com.robin.theandroidcrew.movies.model.Movie;
 import com.robin.theandroidcrew.movies.utils.JSONUtils;
 import com.robin.theandroidcrew.movies.utils.NetworkUtils;
@@ -28,14 +27,13 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final String MOVIE_KEY = "com.robin.theandroidcrew.movies.MOVIE_KEY";
-    private Category category = com.robin.theandroidcrew.movies.Category.TOPRATED;
+    private Category category = Category.TOPRATED;
     private ProgressBar progressBar;
     List<Movie> theMoviesList = new ArrayList<>();
     private TextView errorText;

@@ -13,7 +13,7 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
     private static final String BASE_URL = "https://api.themoviedb.org/3/movie/";
     private static final String API_KEY_KEY = "api_key";
-    private static final String API_KEY_VALUE = "[YOUR_API_KEY]";
+    private static final String API_KEY_VALUE = "2ff648c6d546a39e9afafec110e2dff5";
 
     // Looked at the sunshine repo and previous coursework for reference. Code may look similar
 

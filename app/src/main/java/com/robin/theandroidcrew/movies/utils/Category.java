@@ -1,6 +1,6 @@
-package com.robin.theandroidcrew.movies;
+package com.robin.theandroidcrew.movies.utils;
 
-enum Category {
+public enum Category {
 
     TOPRATED("top_rated"),
     POPULAR("popular");
