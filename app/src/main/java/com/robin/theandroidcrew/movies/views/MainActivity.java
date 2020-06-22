@@ -2,6 +2,7 @@ package com.robin.theandroidcrew.movies.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -22,6 +23,7 @@ import com.robin.theandroidcrew.movies.R;
 import com.robin.theandroidcrew.movies.model.Movie;
 import com.robin.theandroidcrew.movies.utils.JSONUtils;
 import com.robin.theandroidcrew.movies.utils.NetworkUtils;
+import com.robin.theandroidcrew.movies.viewModels.MainActivityViewModel;
 
 import org.json.JSONException;
 
@@ -30,8 +32,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.robin.theandroidcrew.movies.utils.NetworkUtils.isOnline;
+
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private MainActivityViewModel mainActivityViewModel;
     public static final String MOVIE_KEY = "com.robin.theandroidcrew.movies.MOVIE_KEY";
     private Category category = Category.TOPRATED;
     private ProgressBar progressBar;
@@ -45,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         progressBar = findViewById(R.id.progressBar);
         errorText = findViewById(R.id.errorView);
         myRecyclerView = findViewById(R.id.main_recyclerView);
@@ -83,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 URL requestURL = NetworkUtils.buildURL(strings[0]);
                 try{
                     String response = NetworkUtils.getResponseFromHttpUrl(requestURL);
-                    moviesList = JSONUtils.parseJson(response);
+                    moviesList = JSONUtils.parseMovies(response);
                 }
                 catch (IOException | JSONException e) {
                     e.printStackTrace();
@@ -124,22 +130,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     // Gotten from the stackOverflow link shared in the implementation guide!
 
-    public boolean isOnline() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int     exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        return false;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
