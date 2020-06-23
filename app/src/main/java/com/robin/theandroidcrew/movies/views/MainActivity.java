@@ -16,13 +16,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.robin.theandroidcrew.movies.utils.Category;
 import com.robin.theandroidcrew.movies.adapter.MovieAdapter;
 import com.robin.theandroidcrew.movies.R;
 import com.robin.theandroidcrew.movies.model.Movie;
 import com.robin.theandroidcrew.movies.utils.JSONUtils;
 import com.robin.theandroidcrew.movies.utils.NetworkUtils;
+import com.robin.theandroidcrew.movies.utils.Path;
+import com.robin.theandroidcrew.movies.utils.Path.Category;
 import com.robin.theandroidcrew.movies.viewModels.MainActivityViewModel;
 
 import org.json.JSONException;
@@ -33,12 +33,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.robin.theandroidcrew.movies.utils.NetworkUtils.isOnline;
+import static com.robin.theandroidcrew.movies.utils.Path.TOPRATED;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
     private static final String TAG = MainActivity.class.getSimpleName();
     private MainActivityViewModel mainActivityViewModel;
     public static final String MOVIE_KEY = "com.robin.theandroidcrew.movies.MOVIE_KEY";
-    private Category category = Category.TOPRATED;
+    private String category = TOPRATED;
     private ProgressBar progressBar;
     List<Movie> theMoviesList = new ArrayList<>();
     private TextView errorText;
@@ -69,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     }
 
-    public void fetchMovieList(Category type){
-        new FetchTask().execute(type.toString());
+    public void fetchMovieList(@Category String type){
+        new FetchTask().execute(type);
     }
 
 
@@ -143,16 +144,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_sort_popular:
-                if (!(category == Category.POPULAR)){
-                    category = category.POPULAR;
+                if (!(category.equals(Path.POPULAR))){
+                    category = Path.POPULAR;
                     fetchMovieList(category);
                 }else {
                     Toast.makeText(this, "Already Showing top popular movies", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case  R.id.action_sort_topRted:
-                if (!(category == Category.TOPRATED)){
-                    category = category.TOPRATED;
+                if (!(category.equals(TOPRATED))){
+                    category = TOPRATED;
                     fetchMovieList(category);
                 }else {
                     Toast.makeText(this, "Already Showing top rated movies", Toast.LENGTH_SHORT).show();
