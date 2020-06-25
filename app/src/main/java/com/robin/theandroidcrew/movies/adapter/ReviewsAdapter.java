@@ -15,12 +15,13 @@ import com.robin.theandroidcrew.movies.model.Review;
 import java.util.List;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
-    private final Context context;
     private List<Review> items;
+    OnClickHandler clickListener;
 
-    public ReviewsAdapter(List<Review> items, Context context) {
+
+    public ReviewsAdapter(List<Review> items, OnClickHandler cilckHandler) {
         this.items = items;
-        this.context = context;
+        this.clickListener = cilckHandler;
     }
 
     @NonNull
@@ -38,7 +39,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
     @Override
     public void onBindViewHolder(ReviewsAdapter.ViewHolder holder, int position) {
         Review item = items.get(position);
-        holder.bind(item);
+        holder.bind(item, position);
     }
 
     @Override
@@ -60,10 +61,17 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
             content = itemView.findViewById(R.id.tv_review);
         }
 
-        public void bind(Review item) {
+        public void bind(Review item, int position) {
             author.setText(item.getAuthor());
             content.setText(item.getContent());
+            itemView.setOnClickListener(v -> {
+                clickListener.onClickReview(position);
+                    }
+            );
 
         }
+    }
+    public interface OnClickHandler {
+        void onClickReview(int position);
     }
 }

@@ -2,6 +2,7 @@ package com.robin.theandroidcrew.movies.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +22,8 @@ import com.robin.theandroidcrew.movies.R;
 import com.robin.theandroidcrew.movies.model.Movie;
 import com.robin.theandroidcrew.movies.utils.JSONUtils;
 import com.robin.theandroidcrew.movies.utils.NetworkUtils;
-import com.robin.theandroidcrew.movies.utils.Path;
-import com.robin.theandroidcrew.movies.utils.Path.Category;
+import com.robin.theandroidcrew.movies.utils.Categories;
+import com.robin.theandroidcrew.movies.utils.Categories.Category;
 import com.robin.theandroidcrew.movies.viewModels.MainActivityViewModel;
 
 import org.json.JSONException;
@@ -32,14 +33,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.robin.theandroidcrew.movies.utils.Categories.FAVOURITES;
 import static com.robin.theandroidcrew.movies.utils.NetworkUtils.isOnline;
-import static com.robin.theandroidcrew.movies.utils.Path.TOPRATED;
+import static com.robin.theandroidcrew.movies.utils.Categories.TOP_RATED;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.OnClickHandler {
     private static final String TAG = MainActivity.class.getSimpleName();
     private MainActivityViewModel mainActivityViewModel;
     public static final String MOVIE_KEY = "com.robin.theandroidcrew.movies.MOVIE_KEY";
-    private String category = TOPRATED;
+    private String category = TOP_RATED;
     private ProgressBar progressBar;
     List<Movie> theMoviesList = new ArrayList<>();
     private TextView errorText;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
 
         if (isOnline()){
+            errorText.setVisibility(View.INVISIBLE);
             fetchMovieList(category);
         }else {
             errorText.setVisibility(View.VISIBLE);
@@ -66,14 +69,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         movieAdapter = new MovieAdapter(theMoviesList, this);
         myRecyclerView.setHasFixedSize(true);
         myRecyclerView.setAdapter(movieAdapter);
-
-
     }
 
     public void fetchMovieList(@Category String type){
-        new FetchTask().execute(type);
-    }
+        errorText.setVisibility(View.INVISIBLE);
+        if(!type.equals(FAVOURITES)){
+            new FetchTask().execute(type);
+        }
+        else {
+            mainActivityViewModel.getAllFavs();
+            mainActivityViewModel.favMovieList.observe(this, movies -> {
+                theMoviesList = movies;
+                movieAdapter = new MovieAdapter(theMoviesList, MainActivity.this);
+                myRecyclerView.setAdapter(movieAdapter);
+            });
 
+        }
+    }
 
     public class FetchTask extends AsyncTask<String, Void, List<Movie>>{
 
@@ -129,10 +141,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
-    // Gotten from the stackOverflow link shared in the implementation guide!
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -144,19 +152,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_sort_popular:
-                if (!(category.equals(Path.POPULAR))){
-                    category = Path.POPULAR;
+                if (!(category.equals(Categories.POPULAR))){
+                    category = Categories.POPULAR;
                     fetchMovieList(category);
                 }else {
-                    Toast.makeText(this, "Already Showing top popular movies", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Already Showing popular movies", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case  R.id.action_sort_topRted:
-                if (!(category.equals(TOPRATED))){
-                    category = TOPRATED;
+                if (!(category.equals(TOP_RATED))){
+                    category = TOP_RATED;
                     fetchMovieList(category);
                 }else {
                     Toast.makeText(this, "Already Showing top rated movies", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case  R.id.action_show_favourites:
+                if (!(category.equals(FAVOURITES))){
+                    category = FAVOURITES;
+                    fetchMovieList(category);
+                }else {
+                    Toast.makeText(this, "Already Showing favourite movies", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

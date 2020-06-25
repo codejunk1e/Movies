@@ -1,6 +1,5 @@
 package com.robin.theandroidcrew.movies.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,12 @@ import com.robin.theandroidcrew.movies.model.Trailer;
 import java.util.List;
 
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
-    private final Context context;
     private List<Trailer> items;
+    OnClickHandler clickListener;
 
-    public TrailerAdapter(List<Trailer> items, Context context) {
+    public TrailerAdapter(List<Trailer> items, OnClickHandler clickHandler) {
         this.items = items;
-        this.context = context;
+        this.clickListener = clickHandler;
     }
 
     @NonNull
@@ -38,7 +37,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Trailer item = items.get(position);
-        holder.bind(item);
+        holder.bind(item, position);
     }
 
     @Override
@@ -55,10 +54,21 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.trailer_name);
+
         }
 
-        public void bind(Trailer item) {
+        public void bind(Trailer item,  int position) {
             textView.setText(item.getName());
+            itemView.setOnClickListener(v -> {
+
+                        clickListener.onClickTrailer(position);
+
+                    }
+            );
         }
+    }
+
+    public interface OnClickHandler {
+        void onClickTrailer(int position);
     }
 }

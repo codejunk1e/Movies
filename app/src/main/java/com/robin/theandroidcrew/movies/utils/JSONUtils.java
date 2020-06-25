@@ -14,6 +14,7 @@ public class JSONUtils {
 
     private  static final String MOVIE_RESULTS = "results";
     private  static final String MOVIE_TITLE = "title";
+    private  static final String MOVIE_ID = "id";
     private  static final String MOVIE_POSTER = "poster_path";
     private  static final String MOVIE_OVERVIEW = "overview";
     private  static final String MOVIE_RELEASE_DATE= "release_date";
@@ -39,6 +40,7 @@ public class JSONUtils {
         for (int i = 0; i < resultsArray.length(); i++){
             movies.add(
                     new Movie(
+                            resultsArray.getJSONObject(i).optInt(MOVIE_ID),
                             resultsArray.getJSONObject(i).optString(MOVIE_TITLE),
                             POSTER_BASE_URL + POSTER_SIZE + resultsArray.getJSONObject(i).optString(MOVIE_POSTER),
                             resultsArray.getJSONObject(i).optString(MOVIE_OVERVIEW),

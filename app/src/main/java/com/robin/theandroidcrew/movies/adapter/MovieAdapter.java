@@ -15,10 +15,10 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     List<Movie> movies;
-    MovieAdapterOnClickHandler clickListener;
+    OnClickHandler clickListener;
 
 
-    public MovieAdapter(List<Movie> movies, MovieAdapterOnClickHandler clickListener ) {
+    public MovieAdapter(List<Movie> movies, OnClickHandler clickListener ) {
         this.movies = movies;
         this.clickListener = clickListener;
     }
@@ -66,7 +66,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
     }
 
-    public interface MovieAdapterOnClickHandler {
+    public interface OnClickHandler {
         void onClick(int position);
     }
 }

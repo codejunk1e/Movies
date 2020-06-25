@@ -3,29 +3,11 @@ package com.robin.theandroidcrew.movies.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "favourite_movie_table")
 public class Movie implements Parcelable {
-    private String title;
-    private String poster;
-    private String overview;
-    private String releaseDate;
-    private double userRating;
-
-    public Movie(String title, String poster, String overview, String releaseDate, double userRating) {
-        this.title = title;
-        this.poster = poster;
-        this.overview = overview;
-        this.releaseDate = releaseDate;
-        this.userRating = userRating;
-    }
-
-    protected Movie(Parcel in) {
-        title = in.readString();
-        poster = in.readString();
-        overview = in.readString();
-        releaseDate = in.readString();
-        userRating = in.readDouble();
-    }
-
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
         public Movie createFromParcel(Parcel in) {
@@ -37,6 +19,31 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+    @PrimaryKey
+    private int movieID;
+    private String title;
+    private String poster;
+    private String overview;
+    private String releaseDate;
+    private double userRating;
+
+    public Movie(int movieID, String title, String poster, String overview, String releaseDate, double userRating) {
+        this.movieID = movieID;
+        this.title = title;
+        this.poster = poster;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.userRating = userRating;
+    }
+
+    protected Movie(Parcel in) {
+        movieID = in.readInt();
+        title = in.readString();
+        poster = in.readString();
+        overview = in.readString();
+        releaseDate = in.readString();
+        userRating = in.readDouble();
+    }
 
     @Override
     public int describeContents() {
@@ -45,6 +52,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(movieID);
         dest.writeString(title);
         dest.writeString(poster);
         dest.writeString(overview);
@@ -84,10 +92,24 @@ public class Movie implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
-    public String getUserRating() {
+    public double getUserRating() {
+        return userRating;
+    }
+    public String getUserRatingAsString() {
         return Double.toString(userRating);
     }
-    public void setUserRating(int userRating) {
+
+    public void setUserRating(double userRating) {
         this.userRating = userRating;
     }
+
+    public int getMovieID() {
+        return movieID;
+    }
+
+    public void setMovieID(int movieID) {
+        this.movieID = movieID;
+    }
+
 }
+

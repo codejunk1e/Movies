@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Movies</string>
     <string name="error_internet">Failed to connect \n Please check internet and try again!</string>
+    <string name="error_trailers">Failed to load trailers check internet and try again!</string>
+    <string name="error_reviews">Failed to load reviews check internet and try again!</string>
     <string name="release_date">Release Date:</string>
     <string name="rate">Rate:</string>
     <string name="overview">Overview:</string>
@@ -9,4 +11,7 @@
     <string name="trailers">Trailers</string>
     <string name="reviews">Reviews</string>
     <string name="author">Author:</string>
+    <string name="add_to_favourites">Add to favourites</string>
+    <string name="remove_from_favourites">Remove from favourites</string>
+    <string name="show_favourites">show favourites</string>
 </resources>
